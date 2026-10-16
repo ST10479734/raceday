@@ -24,6 +24,7 @@ namespace raceday.Controllers
         [HttpPost]
         public IActionResult Login([FromQuery] string email, [FromQuery] string password)
         {
+
             // Validate that parameters are not empty
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
