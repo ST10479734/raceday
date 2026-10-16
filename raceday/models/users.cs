@@ -66,6 +66,7 @@ namespace raceday.models
         Refunded
     }
 
+
     // Define the Payment Method enum
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PaymentMethod
