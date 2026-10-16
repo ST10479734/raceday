@@ -563,6 +563,7 @@ namespace raceday.database
     {
         private readonly string _connectionString = @"Data Source=(localdb)\api_guide;Database=raceday;Integrated Security=True;";
 
+
         // Method for organizers to capture finish time and positions
         public string InsertResult(ResultModel model)
         {
