@@ -527,6 +527,7 @@ namespace raceday.database
                                 generatedEnrolmentId = Convert.ToInt32(cmdEnrolment.ExecuteScalar());
                             }
 
+
                             // 2. Insert Payment record (passing enum as string via .ToString())
                             using (SqlCommand cmdPayment = new SqlCommand(paymentQuery, connect, transaction))
                             {
