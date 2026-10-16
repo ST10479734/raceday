@@ -330,6 +330,7 @@ namespace raceday.database
         }
 
         // Method to delete an event
+
         public string DeleteEvent(int eventId, int organizerId)
         {
             string message;
