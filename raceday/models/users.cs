@@ -12,6 +12,7 @@ namespace raceday.models
         Participant
     }
 
+
     // Data Transfer Object representing user registration inputs with validation constraints
     public class UserRegisterDto
     {
