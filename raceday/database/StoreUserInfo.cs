@@ -254,6 +254,7 @@ namespace raceday.database
         }
 
         // Method to insert the event record into SQL Server securely using parameters
+        //
         public string InsertEvent(EventModel eventModel)
         {
             string message;
