@@ -175,7 +175,8 @@ namespace raceday.database
     }
     public class EventRepository
     {
-        // Connection string pointing to the local database matching your project
+        //
+        // Connection string pointing to the local database 
         private readonly string _connectionString = @"Data Source=(localdb)\api_guide;Database=raceday;Integrated Security=True;";
 
         public List<EnrolmentDetailModel> GetEnrolmentsByOrganizerId(int organizerId)
