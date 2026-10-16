@@ -30,6 +30,7 @@ namespace raceday.Controllers
                 return BadRequest(new { Message = "Email and password are required." });
             }
 
+
             // Call database helper method to validate credentials
             bool isValidUser = _storeUserInfo.ValidateUser(
                 email,
