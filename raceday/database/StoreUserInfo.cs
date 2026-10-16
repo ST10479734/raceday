@@ -597,6 +597,7 @@ namespace raceday.database
             return message;
         }
 
+
         // Method for participants to view their own results by User ID
         public List<ResultModel> GetResultsByUserId(int userId)
         {
