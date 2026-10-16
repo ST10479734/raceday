@@ -335,8 +335,7 @@ namespace raceday.database
         {
             string message;
 
-            // Optional: If you have foreign key constraints in categories referencing events, 
-            // you may want to delete related categories first or handle cascade deletion.
+            
             string query = "DELETE FROM events WHERE event_ID = @event_ID AND organizer_ID = @organizer_ID;";
 
             try
