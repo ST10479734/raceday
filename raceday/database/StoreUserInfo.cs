@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using raceday.models;
 namespace raceday.database
 {// Start of namespace for database operations
+    //
     public class StoreUserInfo
     {
         // Connection string pointing to the local database
