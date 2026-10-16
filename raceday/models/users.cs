@@ -28,6 +28,7 @@ namespace raceday.models
         [Required]
         public string Password { get; set; } = string.Empty;
     }
+
     // Data Transfer Object representing user login inputs
     public class UserLoginDto
     {
