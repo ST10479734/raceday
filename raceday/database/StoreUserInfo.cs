@@ -445,6 +445,7 @@ namespace raceday.database
                 return categories;
             }
 
+
             // Method to get categories filtered by a specific Event ID
             public List<CategoryModel> GetCategoriesByEventId(int eventId)
             {
