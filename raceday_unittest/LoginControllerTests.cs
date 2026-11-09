@@ -6,6 +6,7 @@ using raceday.database;
 using Xunit;
 namespace raceday_unittest
 {
+    
     public class LoginControllerTests
     {
         private readonly Mock<StoreUserInfo> _mockStoreUserInfo;

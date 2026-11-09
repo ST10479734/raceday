@@ -1,0 +1,75 @@
+﻿@model List<Raceday.web.Models.CategoryViewModel>
+@{
+    ViewData["Title"] = "Event Categories";
+    int eventId = ViewBag.EventId;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Categories</h2>
+    <a asp-action="Events" class="btn btn-raceday-outline btn-sm">← Back to Events</a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success rounded-3">@TempData["Success"]</div>
+}
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="raceday-card p-4">
+            <h4 class="mb-3">Add Category</h4>
+            <form asp-action="CreateCategory" method="post">
+                <input type="hidden" name="EventId" value="@eventId" />
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category Name</label>
+                    <input type="text" name="CategoryName" class="form-control" placeholder="e.g. Open 10K" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Distance</label>
+                    <input type="text" name="Distance" class="form-control" placeholder="e.g. 10km" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Event Type</label>
+                    <select name="EventType" class="form-select" required>
+                        <option value="Running">Running</option>
+                        <option value="Cycling">Cycling</option>
+                        <option value="Walking">Walking</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-raceday-primary w-100">Add Category</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="raceday-card p-3">
+            <h4 class="mb-3">Existing Categories</h4>
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">No categories created for this event yet.</div>
+            }
+            else
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Distance</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cat in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold">@cat.CategoryName</td>
+                                <td>@cat.Distance</td>
+                                <td>@cat.EventType</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

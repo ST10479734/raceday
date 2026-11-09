@@ -2,31 +2,44 @@
 using Microsoft.AspNetCore.Mvc;
 using raceday.database;
 using raceday.models;
-
+//
 namespace raceday.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EnrolmentController : ControllerBase
     {
-        private readonly EnrolmentRepository _enrolmentRepository;
+        private readonly EnrolmentRepositorys _enrolmentRepository;
 
         public EnrolmentController()
         {
-            _enrolmentRepository = new EnrolmentRepository();
+            _enrolmentRepository = new EnrolmentRepositorys();
+        }
+
+        [HttpPost("view-enrolments")]
+        public IActionResult ViewEnrolments([FromForm] int organizerId)
+        {
+            if (organizerId <= 0)
+            {
+                return BadRequest(new { message = "Invalid organizer ID." });
+            }
+
+            var enrolments = _enrolmentRepository.GetEnrolmentsByOrganizer(organizerId);
+
+            if (enrolments == null || !enrolments.Any())
+            {
+                return Ok(new { message = "No enrolments found for your events." });
+            }
+
+            return Ok(enrolments);
         }
 
         // POST: api/enrolment/create
         [HttpPost("create")]
         public IActionResult CreateEnrolment(
-            [FromForm] int userId,
-            [FromForm] int categoryId,
-            [FromForm] DateTime enrolmentDate,
-            [FromForm] string raceNumber,
-            [FromForm] PaymentStatus paymentStatus,
-            [FromForm] string amount,
-            [FromForm] DateTime paymentDate,
-            [FromForm] PaymentMethod method)
+    [FromForm] int userId,
+    [FromForm] int categoryId,
+    [FromForm] string amount)
         {
             // 1. Validate Form Inputs
             if (userId <= 0 || categoryId <= 0)
@@ -34,33 +47,26 @@ namespace raceday.Controllers
                 return BadRequest(new { message = "Valid User ID and Category ID are required." });
             }
 
-            if (string.IsNullOrWhiteSpace(raceNumber))
-            {
-                return BadRequest(new { message = "Race number cannot be empty." });
-            }
+            // 2. Auto-generate server-side tracking fields
+            string generatedRaceNumber = "RN-" + new Random().Next(1000, 9999);
 
-            if (string.IsNullOrWhiteSpace(amount))
-            {
-                return BadRequest(new { message = "Payment amount is required." });
-            }
-
-            // 2. Map form data to model
+            // 3. Map form data and auto-assigned values to the model
             EnrolmentModel model = new EnrolmentModel
             {
                 UserId = userId,
                 CategoryId = categoryId,
-                EnrolmentDate = enrolmentDate,
-                RaceNumber = raceNumber.Trim(),
-                PaymentStatus = paymentStatus,
-                Amount = amount.Trim(),
-                PaymentDate = paymentDate,
-                Method = method
+                EnrolmentDate = DateTime.Now,
+                RaceNumber = generatedRaceNumber,
+                PaymentStatus = PaymentStatus.Paid, // Assuming PaymentStatus is your enum
+                Amount = string.IsNullOrWhiteSpace(amount) ? "150.00" : amount.Trim(),
+                PaymentDate = DateTime.Now,
+                Method = PaymentMethod.Cash, // Default payment method
             };
 
-            // 3. Process database transaction
+            // 4. Process database transaction via repository
             string resultMessage = _enrolmentRepository.InsertEnrolment(model);
 
-            // 4. Return HTTP Response
+            // 5. Return HTTP Response
             if (resultMessage.Contains("successfully"))
             {
                 return Ok(new { message = resultMessage });

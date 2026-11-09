@@ -1,0 +1,43 @@
+﻿@model Raceday.web.Models.ResultViewModel
+@{
+    ViewData["Title"] = "Capture Result";
+}
+
+<div class="row justify-content-center my-4">
+    <div class="col-md-6">
+        <div class="raceday-card p-4">
+            <h3 class="mb-4 text-center" style="color: var(--rd-pink-primary);">Capture Race Result</h3>
+
+            <form asp-action="CaptureResult" method="post">
+                <input type="hidden" asp-for="EnrolmentId" />
+
+                <div class="mb-3">
+                    <label asp-for="FinishTime" class="form-label fw-bold">Finish Time (hh:mm:ss)</label>
+                    <input asp-for="FinishTime" class="form-control" placeholder="00:45:30" required />
+                    <span asp-validation-for="FinishTime" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="OverallPosition" class="form-label fw-bold">Overall Position</label>
+                    <input asp-for="OverallPosition" class="form-control" type="number" min="1" required />
+                    <span asp-validation-for="OverallPosition" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="CategoryPosition" class="form-label fw-bold">Category Position</label>
+                    <input asp-for="CategoryPosition" class="form-control" type="number" min="1" required />
+                    <span asp-validation-for="CategoryPosition" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-raceday-primary w-100 py-2">Publish Result</button>
+            </form>
+            <div class="text-center mt-3">
+                <a asp-action="Enrolments" class="text-decoration-none fw-bold" style="color: var(--rd-pink-primary);">← Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
