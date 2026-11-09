@@ -1,0 +1,50 @@
+﻿@model List<Raceday.web.Models.EnrolmentViewModel>
+@{
+    ViewData["Title"] = "Participant Enrolments";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Event Enrolments</h2>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success rounded-3">@TempData["Success"]</div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info rounded-3">No participant enrolments found for your events.</div>
+}
+else
+{
+    <div class="table-responsive raceday-card p-3">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Participant Name</th>
+                    <th>Event</th>
+                    <th>Category</th>
+                    <th>Race Number</th>
+                    <th>Payment Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@item.ParticipantName</td>
+                        <td>@item.EventName</td>
+                        <td>@item.CategoryName</td>
+                        <td><span class="badge bg-secondary">@item.RaceNumber</span></td>
+                        <td><span class="badge bg-success">@item.PaymentStatus</span></td>
+                        <td>
+                            <a asp-controller="Organiser" asp-action="CaptureResult" asp-route-enrolmentId="@item.EnrolmentId" class="btn btn-raceday-primary btn-sm">Capture Result</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,50 @@
+﻿@model List<Raceday.web.Models.EventViewModel>
+@{
+    ViewData["Title"] = "Upcoming Events";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Upcoming Race Events</h2>
+</div>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-5">
+        <input type="text" name="search" class="form-control" placeholder="Search events by name..." />
+    </div>
+    <div class="col-md-4">
+        <select name="eventType" class="form-select">
+            <option value="">All Event Types</option>
+            <option value="Running">Running</option>
+            <option value="Cycling">Cycling</option>
+            <option value="Walking">Walking</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-raceday-primary w-100">Filter Events</button>
+    </div>
+</form>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info rounded-3">No events found matching your search.</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var ev in Model)
+        {
+            <div class="col">
+                <div class="card raceday-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">@ev.EventName</h5>
+                        <p class="card-text text-muted mb-1"><strong>Location:</strong> @ev.Location</p>
+                        <p class="card-text text-muted"><strong>Date:</strong> @ev.EventDate.ToString("yyyy-MM-dd HH:mm")</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                        <a asp-controller="Participant" asp-action="EventDetails" asp-route-id="@ev.EventId" class="btn btn-raceday-primary w-100">View Details & Register</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

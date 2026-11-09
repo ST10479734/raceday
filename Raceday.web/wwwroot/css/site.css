@@ -1,22 +1,155 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --rd-pink-primary: #e60067;
+    --rd-pink-secondary: #ff3385;
+    --rd-pink-light: #fff0f6;
+    --rd-pink-dark: #b30050;
+    --rd-pink-accent: #ff66a3;
+    --rd-white: #ffffff;
+    --rd-dark-text: #2b2b2b;
+    --rd-gray-light: #fdf8fa;
+    --rd-border: #f8c2d8;
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--rd-gray-light);
+    color: var(--rd-dark-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* --- Brand Typography & Navigation --- */
+.navbar-raceday {
+    background-color: var(--rd-white) !important;
+    border-bottom: 3px solid var(--rd-pink-primary);
+    box-shadow: 0 4px 12px rgba(230, 0, 103, 0.08);
+}
+
+.brand-title {
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+    color: var(--rd-pink-primary) !important;
+}
+
+    .brand-title span {
+        color: var(--rd-dark-text);
+    }
+
+.nav-link-raceday {
+    color: var(--rd-dark-text) !important;
+    font-weight: 600;
+    margin: 0 4px;
+    padding: 8px 16px !important;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+    .nav-link-raceday:hover, .nav-link-raceday.active {
+        background-color: var(--rd-pink-light);
+        color: var(--rd-pink-primary) !important;
+    }
+
+/* --- Buttons & Action Elements --- */
+.btn-raceday-primary {
+    background-color: var(--rd-pink-primary);
+    color: var(--rd-white);
+    border: none;
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 10px 24px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 10px rgba(230, 0, 103, 0.25);
+}
+
+    .btn-raceday-primary:hover {
+        background-color: var(--rd-pink-dark);
+        color: var(--rd-white);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(230, 0, 103, 0.35);
+    }
+
+.btn-raceday-outline {
+    background-color: transparent;
+    color: var(--rd-pink-primary);
+    border: 2px solid var(--rd-pink-primary);
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 8px 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn-raceday-outline:hover {
+        background-color: var(--rd-pink-primary);
+        color: var(--rd-white);
+    }
+
+/* --- Cards & Content Containers --- */
+.raceday-card {
+    background: var(--rd-white);
+    border: 1px solid var(--rd-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(230, 0, 103, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .raceday-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(230, 0, 103, 0.12);
+    }
+
+.raceday-card-header {
+    background-color: var(--rd-pink-light);
+    border-bottom: 1px solid var(--rd-border);
+    color: var(--rd-pink-dark);
+    font-weight: 700;
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+    padding: 16px 20px;
+}
+
+/* --- Form Controls --- */
+.form-control:focus, .form-select:focus {
+    border-color: var(--rd-pink-primary);
+    box-shadow: 0 0 0 0.25rem rgba(230, 0, 103, 0.2);
+}
+
+/* --- Status Badges --- */
+.badge-status-confirmed {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.badge-status-pending {
+    background-color: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffecb5;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.badge-status-cancelled {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+/* --- Footer --- */
+.footer-raceday {
+    background-color: var(--rd-white);
+    border-top: 2px solid var(--rd-pink-light);
+    color: var(--rd-dark-text);
 }

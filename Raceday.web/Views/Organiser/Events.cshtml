@@ -1,0 +1,75 @@
+﻿@model List<Raceday.web.Models.EventViewModel>
+@{
+    ViewData["Title"] = "Manage My Events";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Created Events</h2>
+    <button class="btn btn-raceday-primary" data-bs-toggle="modal" data-bs-target="#createEventModal">+ Create New Event</button>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success rounded-3">@TempData["Success"]</div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info rounded-3">You haven't created any events yet. Click "+ Create New Event" to get started.</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @foreach (var ev in Model)
+        {
+            <div class="col">
+                <div class="card raceday-card h-100 p-3">
+                    <div class="card-body">
+                        <h4 class="fw-bold" style="color: var(--rd-pink-primary);">@ev.EventName</h4>
+                        <p class="text-muted mb-1"><strong>Location:</strong> @ev.Location</p>
+                        <p class="text-muted mb-3"><strong>Date:</strong> @ev.EventDate.ToString("yyyy-MM-dd HH:mm")</p>
+
+                        <div class="d-flex gap-2">
+                            <a asp-controller="Organiser" asp-action="Categories" asp-route-eventId="@ev.EventId" class="btn btn-raceday-outline btn-sm">View Categories</a>
+                            <form asp-action="DeleteEvent" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                                <input type="hidden" name="eventId" value="@ev.EventId" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<!-- Create Event Modal -->
+<div class="modal fade" id="createEventModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content raceday-card">
+            <div class="modal-header raceday-card-header">
+                <h5 class="modal-title">Create New Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="CreateEvent" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Event Name</label>
+                        <input type="text" name="EventName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Location</label>
+                        <input type="text" name="Location" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Event Date & Time</label>
+                        <input type="datetime-local" name="EventDate" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-raceday-primary w-100">Save Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

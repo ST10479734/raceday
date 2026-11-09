@@ -131,4 +131,18 @@ namespace raceday.models
         public string ParticipantName { get; set; }
     }
 
+    public class EnrolmentViewModel
+    {
+        public int EnrolmentId { get; set; }
+        public int UserId { get; set; }
+        public int CategoryId { get; set; }
+        public string ParticipantName { get; set; } = string.Empty;
+        public string EventName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public string RaceNumber { get; set; } = string.Empty;
+        public string PaymentStatus { get; set; } = string.Empty;
+        public string Amount { get; set; } = string.Empty;
+        public DateTime EnrolmentDate { get; set; }
+    }
+
 }// End of models namespace

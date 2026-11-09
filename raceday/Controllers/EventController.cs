@@ -9,7 +9,8 @@ namespace raceday.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        EventRepository _eventRepository;
+        // Fix: Add private readonly to match your other controllers
+        private readonly EventRepository _eventRepository;
 
         public EventController()
         {
@@ -17,31 +18,32 @@ namespace raceday.Controllers
             _eventRepository = new EventRepository();
         }
 
+        [HttpGet("all")]
+        public IActionResult GetAllEvents()
+        {
+            var events = _eventRepository.GetAllEvents();
+            return Ok(events);
+        }
+
         // POST: api/event/create
         [HttpPost("create")]
         public IActionResult CreateEvent(
-            [FromForm] int organizerId,
-            [FromForm] string eventName,
-            [FromForm] string location,
-            [FromForm] DateTime eventDate)
+    [FromForm] int organizerId,
+    [FromForm] string eventName,
+    [FromForm] string location,
+    [FromForm] DateTime eventDate)
         {
             // 1. Controller validation
             if (organizerId <= 0)
             {
                 return BadRequest(new { message = "A valid Organizer ID is required." });
             }
-
-            if (string.IsNullOrWhiteSpace(eventName))
+            if (string.IsNullOrWhiteSpace(eventName) || string.IsNullOrWhiteSpace(location))
             {
-                return BadRequest(new { message = "Event name cannot be empty." });
+                return BadRequest(new { message = "Event name and location cannot be empty." });
             }
 
-            if (string.IsNullOrWhiteSpace(location))
-            {
-                return BadRequest(new { message = "Event location cannot be empty." });
-            }
-
-            // 2. Populate the Model using the form parameters
+            // 2. Populate the Model
             EventModel eventModel = new EventModel
             {
                 OrganizerId = organizerId,
@@ -50,15 +52,14 @@ namespace raceday.Controllers
                 EventDate = eventDate
             };
 
-            // 3. Delegate database insertion to the Data Handler
+            // 3. Delegate database insertion
             string resultMessage = _eventRepository.InsertEvent(eventModel);
 
-            // 4. Return appropriate HTTP response based on outcome
+            // 4. Return HTTP response
             if (resultMessage.Contains("successfully"))
             {
                 return Ok(new { message = resultMessage });
             }
-
             return StatusCode(StatusCodes.Status500InternalServerError, new { message = resultMessage });
         }
 

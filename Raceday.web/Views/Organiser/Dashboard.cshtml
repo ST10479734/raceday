@@ -1,0 +1,34 @@
+﻿@model List<Raceday.web.Models.EventViewModel>
+@{
+    ViewData["Title"] = "Organiser Dashboard";
+}
+
+<div class="row my-4">
+    <div class="col-12">
+        <div class="raceday-card p-4 mb-4 bg-white">
+            <h2 class="fw-bold mb-2" style="color: var(--rd-pink-primary);">Organiser Dashboard</h2>
+            <p class="text-muted">Welcome back! Manage your race events, track participant enrolments, and publish results.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card raceday-card p-3 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="text-muted">Total Events</h5>
+                <h2 class="fw-bold" style="color: var(--rd-pink-primary);">@ViewBag.TotalEvents</h2>
+                <a asp-controller="Organiser" asp-action="Events" class="btn btn-raceday-outline btn-sm mt-2">Manage Events</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card raceday-card p-3 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="text-muted">Total Enrolments</h5>
+                <h2 class="fw-bold" style="color: var(--rd-pink-primary);">@ViewBag.TotalEnrolments</h2>
+                <a asp-controller="Organiser" asp-action="Enrolments" class="btn btn-raceday-outline btn-sm mt-2">View Registers</a>
+            </div>
+        </div>
+    </div>
+</div>

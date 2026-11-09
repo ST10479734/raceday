@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using raceday.database; 
 using raceday.models;
 using static raceday.database.EventRepository;
 
@@ -10,6 +12,7 @@ namespace raceday.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly CategoryRepository _categoryRepository;
+        private string connectionString;
 
         public CategoryController()
         {
@@ -77,16 +80,35 @@ namespace raceday.Controllers
 
         // GET: api/category/event/5
         [HttpGet("event/{eventId}")]
-        public IActionResult GetCategoriesByEvent(int eventId)
+        public List<CategoryModel> GetCategoriesByEvent(int eventId)
         {
-            if (eventId <= 0)
+            var categories = new List<CategoryModel>();
+            string query = "SELECT category_ID, event_ID, categoryname, distance, eventtype FROM categories WHERE event_ID = @eventId;";
+
+            using (SqlConnection connect = new SqlConnection(connectionString))
             {
-                return BadRequest(new { message = "A valid Event ID is required." });
+                using (SqlCommand run_query = new SqlCommand(query, connect))
+                {
+                    // Make sure the parameter name matches!
+                    run_query.Parameters.AddWithValue("@eventId", eventId);
+                    connect.Open();
+                    using (SqlDataReader reader = run_query.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            categories.Add(new CategoryModel
+                            {
+                                CategoryId = Convert.ToInt32(reader["category_ID"]),
+                                EventId = Convert.ToInt32(reader["event_ID"]),
+                                CategoryName = reader["categoryname"].ToString(),
+                                Distance = reader["distance"].ToString(),
+                                EventType = reader["eventtype"].ToString()
+                            });
+                        }
+                    }
+                }
             }
-
-            var categories = _categoryRepository.GetCategoriesByEventId(eventId);
-
-            return Ok(categories);
+            return categories;
         }
     }
 }
